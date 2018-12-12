@@ -3,9 +3,16 @@ mongoose = require("mongoose"),
 bodyParser = require('body-parser')
 var app = express();
 
-var db = mongoose.connect("mongodb://localhost/restFolder", {
+var db;
+if(process.env.ENV == 'Test')
+    db = mongoose.connect("mongodb://localhost/bookAPI_test", {
+        useNewUrlParser: true
+    })
+else {
+db = mongoose.connect("mongodb://localhost/restFolder", {
     useNewUrlParser: true
 })
+}
 
 var Book = require("./models/bookModel")
 
@@ -26,3 +33,4 @@ app.get('/', function(req, res){
 app.listen(port, function(){
     console.log("Running on PORT: "+port)
 })
+module.exports = app;
